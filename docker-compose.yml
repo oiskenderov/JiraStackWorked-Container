@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  node1:
+    #command: /bin/sh -c "chmod -R o+rwx /var/atlassian/jira-shared-home"
+    image: atlassian/jira-software:8.13.4
+    ports:
+      - 9090:8080
+    volumes:
+      - ./artifacts/jira-home-node1:/var/atlassian/application-data/jira:z
+      - ./artifacts/jira-shared-home:/var/atlassian/jira-shared-home:z
+    environment:
+      CATALINA_OPTS: -Datlassian.cluster.scale=true -DjvmRoute=node1
+
+  node2:
+    image: atlassian/jira-software:8.13.4
+    ports:
+      - 9091:8080
+    volumes:
+      - ./artifacts/jira-home-node2:/var/atlassian/application-data/jira:z
+      - ./artifacts/jira-shared-home:/var/atlassian/jira-shared-home:z
+    environment:
+      CATALINA_OPTS: -Datlassian.cluster.scale=true -DjvmRoute=node2
+
+  proxy:
+    image: haproxy:2.3
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:z
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certs:/etc/letsencrypt
+      - ./acme-challenge:/var/www/acme-challenge
+    environment:
+      - CERTBOT_DOMAIN=softgile.com
+    command: certonly --webroot --webroot-path=/var/www/acme-challenge -d $CERTBOT_DOMAIN --agree-tos --email oiskenderov@gmail.com
+
+  database:
+    image: postgres:10.5-alpine
+    volumes:
+      - ./artifacts/postgresql-data:/var/lib/postgresql/data:z
+      - ./postgre-db-init.sql:/docker-entrypoint-initdb.d/postgre-db-init.sql:z
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_USER=postgres
+networks:
+  haproxy_network:
+    external: true
