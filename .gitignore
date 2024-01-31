@@ -2,3 +2,6 @@ artifacts/
 certs/
 
 .git/
+
+cloudflare.ini
+
