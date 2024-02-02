@@ -33,28 +33,16 @@ services:
     image: certbot/dns-digitalocean
     volumes:
       - ./certs:/etc/letsencrypt
-      - ./acme-challenge:/var/www/acme-challenge:z
-      - ./certbot-digitalocean.ini:/etc/letsencrypt/certbot-digitalocean.ini
-      - ./certbot_script.sh:/usr/local/bin/certbot_script.sh:z
-
-     #- ./certs:/etc/letsencrypt
-     #- ./acme-challenge:/var/www/acme-challenge
-     #- ./artifacts/certbot-digitalocean.ini:/etc/letsencrypt/certbot-digitalocean.ini
-   #environment:
-     #- CERTBOT_DOMAIN='azsertcenter.az'
-     #- DIGITALOCEAN_API_KEY='dop_v1_68b80d1b63b9b14216331572a385f54110c501423d8ae6b5b3f6e8ce46aaf731'
+      - ./acme-challenge:/var/www/acme-challenge
+      #- ./artifacts/certbot-digitalocean.ini:/etc/letsencrypt/certbot-digitalocean.ini
+    #environment:
+     # - CERTBOT_DOMAIN='azsertcenter.az'
+     # - DIGITALOCEAN_API_KEY='dop_v1_68b80d1b63b9b14216331572a385f54110c501423d8ae6b5b3f6e8ce46aaf731'
    # command: ["certonly", "--webroot", "--webroot-path", "/var/www/acme-challenge", "-d", "teso.az", "--agree-tos", "--email", "oiskenderov@gmail.com", "--non-interactive", "--quiet"]
-   # command: certonly --webroot --webroot-path /var/www/acme-challenge --cert-name -d teso.az --agre-tos --email oiskenderov@gmail.com
-    command: /bin/sh -c ["mkdir", "-p", "/var/www/acme-challenge"]
-    command: /bin/sh -c [ "sleep 30", "chown", "www-data:www-data", "/var/www/acme-challenge" ]
-    command: [ "certonly", "--webroot", "--webroot-path", "/var/www/acme-challenge", "-d", "azsertcenter.az", "-d", "www.azsertcenter.az", "--agree-tos", "--email", "oiskenderov@gmail.com"]
-   # command: >
-   #   sh -c "mkdir -p /var/www/acme-challenge && certbot certonly --webroot --webroot-path /var/www/acme-challenge -d azsertcenter.az --agree-tos --email oiskenderov@gmail.com --non-interactive --quiet"
-   #  command: /bin/sh -c "./certbot_script.sh"
-   #   - sh
-   #   - -c
-   #   - "mkdir -p /var/www/acme-challenge && certbot certonly --webroot --webroot-path /var/www/acme-challenge -d azsertcenter.az --agree-tos --email oiskenderov@gmail.com --non-interactive --quiet"
-
+   #  command: certonly --webroot --webroot-path /var/www/acme-challenge --cert-name -d teso.az --agre-tos --email oiskenderov@gmail.com
+   # command: ["certonly", "--webroot", "--webroot-path", "/var/www/acme-challenge", "-d", "azsertcenter.az", "--agree-tos", "--email", "oiskenderov@gmail.com"]
+   # command: ["mkdir", "-p", "/var/www/acme-challenge"]
+    command: [bash -c " mkdir -p /var/www/acme-challenge && certonly --webroot --webroot-path /var/www/acme-challenge -d azsertcenter.az --agree-tos --email oiskenderov@gmail.com" ]
 
 #  certbot:
 #    image: certbot/dns-digitalocean

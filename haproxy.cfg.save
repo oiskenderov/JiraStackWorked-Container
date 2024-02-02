@@ -29,13 +29,13 @@ backend jira_node1
     timeout server 30000
     timeout client 30000
 
-backend jira_node2
-    mode http
-    balance roundrobin
-    server node2 node2:8080 check
-    timeout connect 500
-    timeout server 30000
-    timeout client 30000
+#backend jira_node2
+#    mode http
+#    balance roundrobin
+#    server node2 node2:8080 check
+#    timeout connect 500
+#    timeout server 30000
+#    timeout client 30000
   # use_backend certbot if letsencrypt_check
 
 backend jira
