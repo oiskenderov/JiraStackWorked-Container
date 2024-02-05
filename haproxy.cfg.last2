@@ -1,0 +1,28 @@
+defaults
+    default-server init-addr last,libc,none
+
+frontend http-in
+  bind *:80
+  mode http
+  option forwardfor
+  redirect scheme https if !{ ssl_fc }
+  
+  default_backend node1
+
+frontend https-in
+  bind *:443 ssl crt /keys/test.pem
+  mode http
+  option forwardfor
+#  regadd X-Forwarded-Proto:\ https
+
+ 
+  default_backend node1
+
+backend node1
+  mode http
+#  balance roudrobin
+  option http-server-close
+  option forwardfor
+  option httpchk GET /check
+
+  server node1 node1:443,8080 maxconn 32

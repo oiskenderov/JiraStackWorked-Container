@@ -3,8 +3,8 @@ services:
   node1:
     image: atlassian/jira-software:8.13.4
     ports:
-      - 80:8080
-      - 443:8443
+      - 9443:8443
+      - 9080:8080
     volumes:
       - ./artifacts/jira-home-node1:/var/atlassian/application-data/jira:z
       - ./artifacts/jira-shared-home:/var/atlassian/jira-shared-home:z
@@ -15,8 +15,8 @@ services:
   proxy:
     image: haproxy:2.3
     ports:
-      - 8080:80
-      - 8443:443
+      - 443:9443
+      - 80:9080
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:z
       - ./keys/:/etc/haproxy/

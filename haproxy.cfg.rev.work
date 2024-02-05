@@ -4,15 +4,21 @@ defaults
 
 frontend http
   bind *:80
-  #bind *:443 ssl crt /etc/haproxy/certs/
-  # acl letsencrypt_check path_beg /.well-known
-
-  # use_backend certbot if letsencrypt_check
+  bind *:443 ssl crt /keys/test.pem
+  
   default_backend jira
 
 backend jira
   server node1 node1:443,8080 maxconn 32
-  server node2 node2:443,8080 maxconn 32
+  server node1 152.42.128.202:443,8080 maxconn 32
+  server server1 127.0.0.1:8080 maxconn 32
 
-#backend certbot
-#  server certbot certbot:80 maxconn 32
+
+global
+  maxconn 512
+
+global
+  mode http
+  timeout connect 5000
+  timeout client 50000
+  timeout server 50000
