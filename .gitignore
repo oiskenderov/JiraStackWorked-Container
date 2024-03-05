@@ -1,5 +1,5 @@
 artifacts/
 temptrash/
-.git/
+.gitignore
 
 
