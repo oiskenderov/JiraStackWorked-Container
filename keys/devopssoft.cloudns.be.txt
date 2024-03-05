@@ -1,9 +1,0 @@
-$ORIGIN devopssoft.cloudns.be.
-@	3600	IN	SOA	ns51.cloudns.net. support.cloudns.net. 2024020413 7200 1800 1209600 3600
-@	3600	IN	NS	ns51.cloudns.net.
-@	3600	IN	NS	ns52.cloudns.net.
-@	3600	IN	NS	ns53.cloudns.net.
-@	3600	IN	NS	ns54.cloudns.net.
-@	3600	IN	A	152.42.128.202
-_7879791266f07340d2f2ca3801f7d0b4.devopssoft.cloudns.be	3600	IN	CNAME	ea7478a0f589a5b6b747879cdb8a7d36.137e92096f7686a9ffc761ca3dc86f04.aeeba1e0486866b.comodoca.com.
-

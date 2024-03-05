@@ -1,7 +1,5 @@
 artifacts/
-certs/
-
+temptrash/
 .git/
 
-cloudflare.ini
 

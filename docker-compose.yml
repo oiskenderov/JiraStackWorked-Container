@@ -1,25 +1,32 @@
+
+
 version: '3.7'
 services:
   node1:
-    image: atlassian/jira-software:8.13.4
+    image: atlassian/jira-software:7.13.2
     ports:
-      - 80:8080
-      - 443:8443
+      - 9090:8080
+      - 8443:8443
     volumes:
       - ./artifacts/jira-home-node1:/var/atlassian/application-data/jira:z
       - ./artifacts/jira-shared-home:/var/atlassian/jira-shared-home:z
     environment:
       CATALINA_OPTS: -Datlassian.cluster.scale=true -DjvmRoute=node1
+    networks:
+      - softnet
 
 
   proxy:
-    image: haproxy:2.3
+    image: haproxy:2.6
     ports:
-      - 8080:80
-      - 8443:443
+      - 8081:80
+      - 443:8443
     volumes:
+      - ./haproxy.cfg:/etc/haproxy/haproxy.cfg:z
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:z
-      - ./keys/:/etc/haproxy/
+     # - ./keys/:/etc/haproxy/
+    networks:
+      - softnet
 
   database:
     image: postgres:10.5-alpine
@@ -31,7 +38,11 @@ services:
     environment:
       - POSTGRES_PASSWORD=1234
       - POSTGRES_USER=postgres
+    networks:
+      - softnet
 
 networks:
   haproxy_network:
     external: true
+  softnet:
+    driver: bridge
