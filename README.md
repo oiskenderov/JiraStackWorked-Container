@@ -47,7 +47,7 @@ Before getting started, ensure the following prerequisites are met:
     -   Modify the `.env` file in the project root for environment variables.
     -   Update the PostgreSQL initialization script (`postgre-db-init.sql`) if necessary.
     -   Adjust the HAProxy configuration (`haproxy.cfg`) to suit your requirements.
-3.  Generate self-signed certificates:
+3.  Generate self-signed certificates (manual):
     
     bashCopy code
     
@@ -91,7 +91,8 @@ This project is licensed under the MIT License.
 
 ## Acknowledgments
 
--   Atlassian Jira
+-   [Atlassian Jira Core](https://www.atlassian.com/)
+-   [Certbot](https://certbot.eff.org/)
 -   [HAProxy](http://www.haproxy.org/)
 -   [PostgreSQL](https://www.postgresql.org/)
 
